@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  postgresql:
+    container_name: PostgreSQL
+    build:
+      context: postgresql
+      dockerfile: Dockerfile
+    ports:
+      - 5444:5432
+    networks:
+      - habitcare
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  spring:
+    container_name: Spring
+    build:
+      context: spring
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/{POSTGRES_DB}
+    ports:
+      - 8080:8080
+    networks:
+      - habitcare
+    depends_on:
+      - postgresql
+
+  reactjs:
+    container_name: React
+    build:
+      context: reactjs
+      dockerfile: Dockerfile
+    ports:
+      - 80:3000
+    depends_on:
+      - spring
+    stdin_open: true
+
+networks:
+  habitcare:
+    driver: bridge
+
+volumes:
+  pg-data:
