@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,6 +21,7 @@ public class Check {
     @Column(name = "id")
     private Long id;
 
+    @CreationTimestamp
     @Column(name = "check_date")
     private LocalDateTime checkDate;
 

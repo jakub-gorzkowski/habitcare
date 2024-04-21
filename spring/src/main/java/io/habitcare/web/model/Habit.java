@@ -23,6 +23,9 @@ public class Habit {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "specification_id")
     private Specification specification;
