@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+.button {
+    padding: 10px;
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    text-align: center;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    width: 30%;
+}
+
+.blue {
+    background: linear-gradient(135deg, #112B88, #77CEFF);
+    color: black;
+}
+
+.button:hover {
+    background-color: #fc96bd;
+}
+
+@media (max-width: 600px) {
+
+}

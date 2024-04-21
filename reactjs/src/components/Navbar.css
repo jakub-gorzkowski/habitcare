@@ -8,6 +8,8 @@
     align-items: center;
     background-color: #373645;
     height:8%;
+    box-shadow: 0 1px 1px #1C1B27;
+
 }
 
 .navbar-links > ul > a {

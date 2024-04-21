@@ -19,7 +19,7 @@ services:
       context: spring
       dockerfile: Dockerfile
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/{POSTGRES_DB}
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/habitcare
     ports:
       - 8080:8080
     networks:
