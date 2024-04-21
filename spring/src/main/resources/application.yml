@@ -3,9 +3,9 @@ spring:
     name: habitcare
 
   datasource:
-    url: jdbc:postgresql://localhost:5444/{POSTGRES_DB}
-    username: {POSTGRES_USER}
-    password: {POSTGRES_PASSWORD}
+    url: jdbc:postgresql://localhost:5444/habitcare
+    username: postgres
+    password: user
     driver-class-name: org.postgresql.Driver
 
   jpa:
