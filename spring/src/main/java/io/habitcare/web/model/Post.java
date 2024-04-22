@@ -32,7 +32,7 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "mood_id")
     private Mood mood;
 }

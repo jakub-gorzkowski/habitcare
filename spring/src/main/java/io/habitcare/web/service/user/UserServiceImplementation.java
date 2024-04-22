@@ -13,7 +13,7 @@ import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
 
 @Service
 public class UserServiceImplementation implements UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserServiceImplementation(UserRepository userRepository) {
