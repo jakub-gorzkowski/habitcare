@@ -10,14 +10,21 @@ function Dashboard() {
   return (
     <div className="dashboard">
         <Navbar />
-         <SideBar />
-        <div className="habits-container">
-            <div className="habits-text">My habits</div>
-            <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
-            <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
-            <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
-            <div className="add-habit-btn">
-                <Button color="blue">Add Habit</Button>
+        <div className="dashboard-middle">
+            <div className="side-bar">
+                <SideBar/>
+            </div>
+            <div className="habits-container">
+                <div className="habits-text">My habits</div>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <div className="add-habit-btn">
+                    <Button color="blue">Add Habit</Button>
+                </div>
             </div>
         </div>
         <div className="mobile-menu">

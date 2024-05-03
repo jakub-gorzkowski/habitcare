@@ -3,17 +3,30 @@
     width: 100vw;
     height: 100vh;
     background-color: #373645;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.dashboard-middle {
+    width: 100%;
+    display: flex; /* Ustawienie kontenera na flex */
+    justify-content: space-between; /* Rozłożenie elementów na końcach */
+    align-items: flex-start; /* Wyrównanie do góry */
+    height: auto;
+    max-height: 92%; /* Ustawienie maksymalnej wysokości na 92% wysokości okna przeglądarki */
+    overflow-y: auto;
+
+}
+.side-bar {
+    width: 22%; /* Możesz dostosować szerokość paska bocznego */
 }
 .habits-container{
-    align-self: flex-start;
     margin-top: 2%;
-    width: 78%;
-    height: 92%;
+    width: 70%;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: fixed;
-    right: 0;
 }
 
 .habits-text {
@@ -25,10 +38,9 @@
     word-wrap: break-word;
 }
 .add-habit-btn{
+    margin-top: 2%;
     width: 78%;
-    height: 80%;
-    position: fixed;
-    right: 0;
+    height: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,9 +61,16 @@
     .habits-container{
         width: 100%;
         padding-top: 5%;
-        padding-left: 5%;
         display: flex;
         align-items: start;
+        overflow-y: auto;
+        margin-bottom: 7%;
+    }
+    .habits-text {
+        padding-left: 5%;
+    }
+    .side-bar {
+        display: none
     }
     .add-habit-btn{
         width: 100vw;
