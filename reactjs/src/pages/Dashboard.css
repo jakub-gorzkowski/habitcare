@@ -9,16 +9,16 @@
 }
 .dashboard-middle {
     width: 100%;
-    display: flex; /* Ustawienie kontenera na flex */
-    justify-content: space-between; /* Rozłożenie elementów na końcach */
-    align-items: flex-start; /* Wyrównanie do góry */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     height: auto;
-    max-height: 92%; /* Ustawienie maksymalnej wysokości na 92% wysokości okna przeglądarki */
+    max-height: 92%;
     overflow-y: auto;
 
 }
 .side-bar {
-    width: 22%; /* Możesz dostosować szerokość paska bocznego */
+    width: 22%;
 }
 .habits-container{
     margin-top: 2%;
