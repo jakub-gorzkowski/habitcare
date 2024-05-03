@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,6 +26,6 @@ public class Mood {
     @Column(name = "value")
     private Byte value;
 
-    @OneToOne(mappedBy = "mood", cascade = CascadeType.ALL)
-    private Post post;
+    @OneToMany(mappedBy = "mood", cascade = CascadeType.ALL)
+    private List<Post> posts;
 }

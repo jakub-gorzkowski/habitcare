@@ -11,4 +11,6 @@ public class PostDto {
     private Long id;
     private String description;
     private LocalDateTime postDate;
+    private Long userId;
+    private Long moodId;
 }
