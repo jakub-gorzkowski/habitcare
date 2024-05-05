@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import MobileMenu from "../components/MobileMenu.js";
 import MoodForm from '../components/MoodForm.js';
 function Journal() {
-    const activePage = "Habits";
+    const activePage = "Journal";
     return (
         <div className="dashboard">
             <Navbar />
