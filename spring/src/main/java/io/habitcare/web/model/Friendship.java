@@ -30,9 +30,9 @@ public class Friendship {
     @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    @OneToOne
-    @JoinColumn(name = "status_id")
-    private Status status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private FriendshipStatus status;
 
     @ManyToOne
     @JoinColumn(name = "sender_id")

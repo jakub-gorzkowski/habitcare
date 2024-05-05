@@ -33,4 +33,12 @@ public class UserServiceImplementation implements UserService {
         User user = userRepository.findById(userId).get();
         return mapToUserDto(user);
     }
+
+    @Override
+    public List<UserDto> findUserByUsername(String username) {
+        List<User> users = userRepository.findByUsernameContaining(username);
+        return users.stream()
+                .map(UserMapper::mapToUserDto)
+                .toList();
+    }
 }
