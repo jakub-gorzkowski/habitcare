@@ -1,0 +1,33 @@
+.profile-logo{
+    display: none;
+}
+@media (max-width: 900px) {
+    .profile-logo {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+        white-space: nowrap;
+        height: 10%;
+        border-bottom: 1px solid #32303F;
+    }
+    .pl {
+        width: 100%;
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        align-items: center;
+        margin-top: 0;
+    }
+    .logo {
+        margin: 0%;
+        width: 100%;
+    }
+
+    .title {
+       margin-bottom: 1%;
+    }
+}

@@ -1,0 +1,28 @@
+.friend-link{
+    display: none;
+}
+@media (max-width: 600px) {
+    .friend-link {
+        padding-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        height: 300px;
+    }
+
+    .link-text {
+        margin-top: 5px;
+        color: #fdfdfd; /* Możesz dostosować kolor tekstu według potrzeb */
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .link {
+        display: flex;
+        flex-direction: row;
+        align-items: start;
+        text-decoration: none;
+        gap: 4%;
+
+    }
+}
