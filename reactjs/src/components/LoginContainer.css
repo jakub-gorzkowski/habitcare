@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+.login-container {
+    margin: 3em auto;
+    padding: 2em;
+    display: flex;
+    width: 30em;
+    border-radius: 2em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(55, 54, 69, 0.80);
+}
+.login-text{
+    color: #77CEFF;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    margin-bottom: 1em;
+    font-size: 1.5em
+}
