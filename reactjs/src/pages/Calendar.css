@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+.calendar{
+    width:100vw;
+    height: 100vh;
+    color:#FFFFFF;
+}
+.calendar-container-1 {
+    width: 78%;
+    height: 92%;
+    background-color: #373645;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: fixed;
+    right: 0;
+    font-size: 12px;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.calendar-container-2 {
+    width: 100%;
+}
+
+.calendar-container-3 {
+    margin: 3em auto;
+    padding: 2em;
+    display: flex;
+    width:40%;
+    border-radius: 2em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #262537;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.month-picker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    width:40%;
+}
+
+.calendar-grid {
+    width:90%;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-header {
+    text-align: center;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.calendar-day {
+    text-align: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: #30ADF3;
+    border-radius: 5em;
+}
+
+.selected-date-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.emoji-habit-contanier{
+    margin: 3em auto;
+    padding: 2em;
+    display: flex;
+    width:40%;
+    border-radius: 2em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #262537;
+}
+
+.mood-habits-container{
+    display: flex;
+    border-radius: 2em;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 4%;
+    width: 80%;
+}
+
+.emotion-img{
+    max-width: 50%;
+    height: auto;
+}
+
+.mood-description-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    padding-top: 4%;
+}
+
+@media (max-width: 600px) {
+    .calendar-container-1 {
+        width: 100%;
+        height: 92%;
+    }
+
+    .calendar-container-3{
+        width:80%;
+    }
+
+    .emoji-habit-contanier {
+        width: 80%;
+    }
+}

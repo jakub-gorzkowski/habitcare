@@ -1,0 +1,32 @@
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin:1em;
+}
+textarea{
+    border-radius: 1em;
+    background: #1C1B27;
+    margin: 2em;
+    width: 120%;
+    height: 10em;
+    padding: 1em;
+    color:white;
+}
+@media (max-width: 600px) {
+    .mood-options{
+        display: flex;
+        flex-direction: row;
+        margin-top: 1em;
+    }
+    textarea{
+        border-radius: 1em;
+        background: #1C1B27;
+        margin: 2em;
+        width: 80%;
+        height: 13em;
+        padding: 1em;
+    }
+
+}
