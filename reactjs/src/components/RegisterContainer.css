@@ -28,3 +28,12 @@
     justify-content: center;
     margin-bottom: 1rem;
 }
+
+@media (max-width: 600px){
+.register-container {
+    background-color: inherit;
+    width: 100vw;
+    height: 100vh;
+    margin: auto;
+}
+}

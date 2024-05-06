@@ -3,3 +3,19 @@
     height: 100vh;
     background-color: #1D1B27;
 }
+
+.mobile{
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mobile {
+        display: flex;
+        width: 100vw;
+        height: 100vh;
+        background-color: #1D1B27;
+    }
+    .desktop{
+        display: none;
+    }
+}

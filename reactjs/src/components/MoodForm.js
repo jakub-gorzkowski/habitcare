@@ -9,7 +9,7 @@ import FearColor from '../assets/FearColor.svg';
 import DisgustColor from '../assets/DisgustColor.svg';
 import AngerColor from '../assets/AngerColor.svg';
 
-import Joy from '../assets/Joy.svg';
+import Joy from '../assets/joy.svg';
 import Sadness from '../assets/Sadness.svg';
 import Fear from '../assets/Fear.svg';
 import Disgust from '../assets/Disgust.svg';

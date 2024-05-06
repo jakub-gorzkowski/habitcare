@@ -5,10 +5,15 @@ import RegisterContainer from "../components/RegisterContainer";
 
 function Register() {
   return (
-    <div className="desktop">
-        <Navbar />
-        <RegisterContainer/>
-       </div>
+      <>
+          <div className="desktop">
+              <Navbar/>
+              <RegisterContainer/>
+          </div>
+          <div className="mobile">
+              <RegisterContainer/>
+          </div>
+      </>
   );
 }
 

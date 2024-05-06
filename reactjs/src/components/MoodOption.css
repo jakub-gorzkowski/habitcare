@@ -19,7 +19,7 @@
         flex-direction: column;
         margin-top: 1em;
     }
-    img{
+    .mood-container img{
         width:40%;
         margin-bottom:1em;
     }
