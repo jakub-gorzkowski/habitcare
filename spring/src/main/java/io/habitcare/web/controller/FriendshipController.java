@@ -1,50 +1,64 @@
 package io.habitcare.web.controller;
 
-import io.habitcare.web.dto.FriendshipDto;
-import io.habitcare.web.dto.UserDto;
 import io.habitcare.web.service.friendship.FriendshipService;
+import io.habitcare.web.service.user.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/friendship")
 public class FriendshipController {
 
     private final FriendshipService friendshipService;
+    private final UserService userService;
 
-    public FriendshipController(FriendshipService friendshipService) {
+    public FriendshipController(FriendshipService friendshipService, UserService userService) {
+        this.userService = userService;
         this.friendshipService = friendshipService;
     }
 
-    @GetMapping("/friends/{userId}")
-    public ResponseEntity<List<UserDto>> getAllFriends(@PathVariable Long userId) {
-        List<UserDto> friends = friendshipService.getAllFriends(userId);
-        return ResponseEntity.ok(friends);
-    }
-
     @PostMapping("/invite")
-    public ResponseEntity<FriendshipDto> sendInvite(@RequestParam Long senderId, @RequestParam Long receiverId) {
-        FriendshipDto friendshipDto = friendshipService.sendInvite(senderId, receiverId);
-        return ResponseEntity.ok(friendshipDto);
+    public ResponseEntity sendInvite(@RequestParam Long senderId, @RequestParam Long receiverId) {
+        if (!userService.exists(senderId) || !userService.exists(receiverId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if (friendshipService.existsFriendshipByUsers(receiverId, senderId)) {
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+
+        friendshipService.sendInvite(senderId, receiverId);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PatchMapping("/accept/{id}")
-    public ResponseEntity<FriendshipDto> acceptInvite(@PathVariable Long id) {
-        FriendshipDto friendshipDto = friendshipService.acceptInvite(id);
-        return ResponseEntity.ok(friendshipDto);
+    public ResponseEntity acceptInvite(@PathVariable Long id) {
+        if (friendshipService.exists(id)) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        friendshipService.acceptInvite(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/decline/{id}")
-    public ResponseEntity<FriendshipDto> declineInvite(@PathVariable Long id) {
-        FriendshipDto friendshipDto = friendshipService.declineInvite(id);
-        return ResponseEntity.ok(friendshipDto);
+    public ResponseEntity declineInvite(@PathVariable Long id) {
+        if (friendshipService.getFriendshipStatus(id).equals("ACCEPTED")) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        friendshipService.deleteFriendship(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/block/{id}")
-    public ResponseEntity<FriendshipDto> blockFriend(@PathVariable Long id) {
-        FriendshipDto friendshipDto = friendshipService.blockFriend(id);
-        return ResponseEntity.ok(friendshipDto);
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity deleteFriendship(@PathVariable Long id) {
+        friendshipService.deleteFriendship(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+
+
 }

@@ -2,11 +2,14 @@ package io.habitcare.web.service.user;
 
 import io.habitcare.web.dto.UserDto;
 import io.habitcare.web.mapper.UserMapper;
+import io.habitcare.web.model.Friendship;
 import io.habitcare.web.model.User;
+import io.habitcare.web.repository.FriendshipRepository;
 import io.habitcare.web.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
@@ -18,6 +21,11 @@ public class UserServiceImplementation implements UserService {
     @Autowired
     public UserServiceImplementation(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean exists(Long userId) {
+        return userRepository.existsById(userId);
     }
 
     @Override
