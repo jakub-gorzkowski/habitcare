@@ -1,20 +1,20 @@
 import React from 'react';
-import './Register.css';
+import './Login.css';
 import Navbar from "../components/Navbar";
-import RegisterContainer from "../components/RegisterContainer";
+import LoginContainer from "../components/LoginContainer.js";
 
-function Register() {
+function Login() {
   return (
       <>
           <div className="desktop">
               <Navbar/>
-              <RegisterContainer/>
+              <LoginContainer/>
           </div>
           <div className="mobile">
-              <RegisterContainer/>
+              <LoginContainer/>
           </div>
       </>
   );
 }
 
-export default Register;
+export default Login;

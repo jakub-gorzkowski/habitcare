@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
-.register-container {
+.login-container {
     margin: 3em auto;
     padding: 2em;
     display: flex;
@@ -11,29 +11,27 @@
     align-items: center;
     background-color: rgba(55, 54, 69, 0.80);
 }
-.register-text{
+.login-text{
     color: #77CEFF;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
     margin-bottom: 1em;
     font-size: 1.5em
 }
-.icon-container{
-    border-radius: 100%;
-    background-color: #2C2A38;
-    width: 7em;
-    height: 7em;
-    padding: 2em;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
+
+.no-acc-message{
+    color: #ffffff;
+}
+
+.no-acc-message a{
+    color: #77CEFF;
 }
 
 @media (max-width: 600px){
-.register-container {
-    background-color: inherit;
-    width: 100vw;
-    height: 100vh;
-    margin: auto;
-}
+    .login-container {
+        background-color: inherit;
+        width: 100vw;
+        height: 100vh;
+        margin: auto;
+    }
 }

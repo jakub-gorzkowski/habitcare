@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Calendar.css";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import joy from "../assets/joy.svg";
+import joy from "../assets/JoyColor.svg";
 import MobileMenu from "../components/MobileMenu";
 
 const activePage = "Calendar";
