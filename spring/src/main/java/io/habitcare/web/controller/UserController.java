@@ -68,4 +68,10 @@ public class UserController {
                 .toList();
         return new ResponseEntity<>(habitsList, HttpStatus.OK);
     }
+
+    @GetMapping(path = "{userId}/friends")
+    public ResponseEntity<List<UserDto>> getFriends(@PathVariable Long userId) {
+        List<UserDto> friends = userService.getAllFriends(userId);
+        return new ResponseEntity<>(friends, HttpStatus.OK);
+    }
 }

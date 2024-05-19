@@ -16,4 +16,5 @@ public interface UserService {
     UserDto findUserById(Long userId);
     List<UserDto> findUserByUsername(String username);
     List<Habit> findUserHabits(Long userId);
+    List<UserDto> getAllFriends(Long userId);
 }

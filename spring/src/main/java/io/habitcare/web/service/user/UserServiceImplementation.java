@@ -20,10 +20,12 @@ import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
 @Service
 public class UserServiceImplementation implements UserService {
     private final UserRepository userRepository;
+    private final FriendshipRepository friendshipRepository;
 
     @Autowired
-    public UserServiceImplementation(UserRepository userRepository) {
+    public UserServiceImplementation(UserRepository userRepository, FriendshipRepository friendshipRepository) {
         this.userRepository = userRepository;
+        this.friendshipRepository = friendshipRepository;
     }
 
     @Override
@@ -79,6 +81,20 @@ public class UserServiceImplementation implements UserService {
     public List<Habit> findUserHabits(Long userId) {
         List<Habit> habits = userRepository.findUserHabits(userId);
         return habits;
+    }
+
+    @Override
+    public List<UserDto> getAllFriends(Long userId) {
+        List<Friendship> friendships = friendshipRepository.findAllAcceptedFriendships(userId);
+        List<UserDto> friends = new ArrayList<>();
+        if (friendships.isEmpty()) {
+            return friends;
+        }
+        for (Friendship friendship : friendships) {
+            User friend = friendship.getSender().getId().equals(userId) ? friendship.getReceiver() : friendship.getSender();
+            friends.add(UserMapper.mapToUserDto(friend));
+        }
+        return friends;
     }
 
 }
