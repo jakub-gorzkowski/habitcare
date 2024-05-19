@@ -5,6 +5,7 @@ import io.habitcare.web.dto.UserDto;
 import io.habitcare.web.mapper.HabitMapper;
 import io.habitcare.web.model.Habit;
 import io.habitcare.web.model.User;
+import io.habitcare.web.service.habit.HabitService;
 import io.habitcare.web.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,16 +14,19 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static io.habitcare.web.mapper.HabitMapper.mapFromHabitDto;
 import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
 
 @RestController
 @RequestMapping(path = "/api/users")
 public class UserController {
     private final UserService userService;
+    private final HabitService habitService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, HabitService habitService) {
         this.userService = userService;
+        this.habitService = habitService;
     }
 
     @PostMapping(path = "/add")
@@ -73,5 +77,21 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getFriends(@PathVariable Long userId) {
         List<UserDto> friends = userService.getAllFriends(userId);
         return new ResponseEntity<>(friends, HttpStatus.OK);
+    }
+
+    @PatchMapping(path = "{userId}/join/{habitId}")
+    public ResponseEntity<UserDto> joinHabit(
+            @PathVariable("userId") Long userId,
+            @PathVariable("habitId") Long habitId
+    ) {
+        User user = userService.findUserDetailsById(userId);
+        HabitDto habitDto = habitService.findHabitById(habitId);
+
+        List<Habit> habits = user.getHabits();
+        habits.add(mapFromHabitDto(habitDto));
+        user.setHabits(habits);
+
+        User updatedUser = userService.updateUser(userId, user);
+        return new ResponseEntity<>(mapToUserDto(updatedUser), HttpStatus.OK);
     }
 }

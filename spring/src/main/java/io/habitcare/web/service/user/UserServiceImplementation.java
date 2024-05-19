@@ -70,6 +70,12 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public User findUserDetailsById(Long userId) {
+        User user = userRepository.findById(userId).get();
+        return user;
+    }
+
+    @Override
     public List<UserDto> findUserByUsername(String username) {
         List<User> users = userRepository.findByUsernameContaining(username);
         return users.stream()

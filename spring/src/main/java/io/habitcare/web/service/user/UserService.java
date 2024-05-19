@@ -14,6 +14,7 @@ public interface UserService {
     void deleteById(Long userId);
     List<UserDto> findAllUsers();
     UserDto findUserById(Long userId);
+    User findUserDetailsById(Long userId);
     List<UserDto> findUserByUsername(String username);
     List<Habit> findUserHabits(Long userId);
     List<UserDto> getAllFriends(Long userId);

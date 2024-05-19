@@ -1,6 +1,7 @@
 package io.habitcare.web.repository;
 
 import io.habitcare.web.dto.HabitDto;
+import io.habitcare.web.dto.UserDto;
 import io.habitcare.web.model.Habit;
 import io.habitcare.web.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
