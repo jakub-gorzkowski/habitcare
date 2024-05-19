@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/friendship")
 public class FriendshipController {
-
     private final FriendshipService friendshipService;
     private final UserService userService;
 
@@ -35,7 +34,7 @@ public class FriendshipController {
 
     @PatchMapping("/accept/{id}")
     public ResponseEntity acceptInvite(@PathVariable Long id) {
-        if (friendshipService.exists(id)) {
+        if (!friendshipService.exists(id)) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         friendshipService.acceptInvite(id);
@@ -52,13 +51,9 @@ public class FriendshipController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteFriendship(@PathVariable Long id) {
         friendshipService.deleteFriendship(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
 }
