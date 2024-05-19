@@ -6,6 +6,7 @@ import Register from './pages/Register.js';
 import Calendar from "./pages/Calendar.js";
 import Journal from "./pages/Journal.js";
 import Login from './pages/Login.js';
+import Friends from "./pages/Friends";
 
 const App = () => {
     return (
@@ -17,6 +18,8 @@ const App = () => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/journal" element={<Journal />} />
+                <Route path="/friends" element={<Friends />} />
+
             </Routes>
         </Router>
     );
