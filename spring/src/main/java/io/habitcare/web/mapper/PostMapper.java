@@ -5,9 +5,7 @@ import io.habitcare.web.model.Mood;
 import io.habitcare.web.model.Post;
 import io.habitcare.web.model.User;
 
-import static io.habitcare.web.mapper.MoodMapper.mapFromMoodDto;
 import static io.habitcare.web.mapper.MoodMapper.mapToMoodDto;
-import static io.habitcare.web.mapper.UserMapper.mapFromUserDto;
 import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
 
 public class PostMapper {

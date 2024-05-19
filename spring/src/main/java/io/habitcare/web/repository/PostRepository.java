@@ -1,6 +1,5 @@
 package io.habitcare.web.repository;
 
-import io.habitcare.web.dto.PostDto;
 import io.habitcare.web.model.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 
