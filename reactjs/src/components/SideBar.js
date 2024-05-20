@@ -23,9 +23,9 @@ const menuItems = [
     { icon: myProfileIcon, label: "Profile", to: "/profile" },
     { icon: habitIcon, label: "Habits", to: "/dashboard" },
     { icon: friendsIcon, label: "Friends", to: "/friends" },
-    { icon: streaksIcon, label: "Streaks", to: "/streaks" },
+    // { icon: streaksIcon, label: "Streaks", to: "/streaks" },
     { icon: moodJournalIcon, label: "Mood journal", to: "/journal" },
-    { icon: progressIcon, label: "Progress", to: "/progress" },
+    // { icon: progressIcon, label: "Progress", to: "/progress" },
     { icon: calendarIcon, label: "Calendar", to: "/calendar" },
 ];
 

@@ -20,15 +20,16 @@ function Dashboard() {
                 <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
                 <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
                 <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
-                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
-                <HabitItem label="Going to gym" score="7/10" inviteText="Invite friend"/>
+                <div className="add-habit-input">
+                    <input type="text" placeholder="Insert habit name"/>
+                </div>
                 <div className="add-habit-btn">
                     <Button color="blue">Add Habit</Button>
                 </div>
             </div>
         </div>
         <div className="mobile-menu">
-            <MobileMenu activePage={activePage} />
+            <MobileMenu activePage={activePage}/>
         </div>
     </div>
   );
