@@ -7,25 +7,12 @@ import Calendar from "./pages/Calendar.js";
 import Journal from "./pages/Journal.js";
 import Login from "./pages/Login.js";
 import Friends from "./pages/Friends";
+import HabitDetails from "./pages/HabitDetails";
 
 import LoggedRoutes from "./utils/LoggedRoutes";
 import PrivateRoutes from "./utils/PrivateRoutes";
 
 const App = () => {
-  return (
-    // <Router>
-    //     <Routes>
-    //         <Route path="/login" element={<Login />} />
-    //         <Route path="/register" element={<Register />} />
-    //         <Route path="/dashboard" element={<Dashboard />} />
-    //         <Route path="/profile" element={<Profile />} />
-    //         <Route path="/calendar" element={<Calendar />} />
-    //         <Route path="/journal" element={<Journal />} />
-    //         <Route path="/friends" element={<Friends />} />
-
-    //     </Routes>
-    // </Router>
-
     // Zalogowany uzytkownik nie moze dostac sie do login/register,
     // a nie zalogowany do dashboard itp
     <Routes>
