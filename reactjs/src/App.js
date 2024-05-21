@@ -7,6 +7,7 @@ import Calendar from "./pages/Calendar.js";
 import Journal from "./pages/Journal.js";
 import Login from './pages/Login.js';
 import Friends from "./pages/Friends";
+import HabitDetails from "./pages/HabitDetails";
 
 const App = () => {
     return (
@@ -19,6 +20,7 @@ const App = () => {
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/journal" element={<Journal />} />
                 <Route path="/friends" element={<Friends />} />
+                <Route path="/habitdetails" element={<HabitDetails />} />
 
             </Routes>
         </Router>
