@@ -9,9 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByUsernameContaining(String username);
     @Query("SELECT h FROM Habit h JOIN h.users u WHERE u.id = :userId")
     List<Habit> findUserHabits(@Param("userId") Long userId);
+
+    Optional<User> findByEmail(String email);
 }
