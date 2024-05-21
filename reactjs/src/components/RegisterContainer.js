@@ -17,7 +17,7 @@ const RegisterContainer = () => {
                     <img loading="lazy" src={registerIcon} className="registerIcon" alt="" />
                 </div>
 
-                <DynamicForm fields={fieldsForRegisterForm} buttonText="Sign up" />
+                <DynamicForm fields={fieldsForRegisterForm} buttonText="Sign up" action="http://localhost:8080/api/auth/register" />
             </div>
     );
 }

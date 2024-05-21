@@ -13,7 +13,7 @@ const LoginContainer = () => {
         <div className="login-container">
             <p className="login-text">Log in to HabitCare</p>
 
-            <DynamicForm fields={fieldsForLoginForm} buttonText="Login"/>
+            <DynamicForm fields={fieldsForLoginForm} buttonText="Login" action="http://localhost:8080/api/auth/login" />
             <p className="no-acc-message">Don't have an account? <Link to="/register">Sign up</Link></p>
         </div>
     );
