@@ -10,40 +10,51 @@ import streaksIcon from "../assets/streaks.svg";
 import myProfileIcon from "../assets/myProfile.svg";
 import logoutIcon from "../assets/logout.svg";
 
+import AuthService from "../service/auth.service";
+
 function MenuItem({ icon, label, to }) {
-    return (
-        <Link to={to} className="menu-item">
-            <img loading="lazy" src={icon} className="menu-icon" alt="" />
-            <div className="menu-label">{label}</div>
-        </Link>
-    );
+  return (
+    <Link to={to} className="menu-item">
+      <img loading="lazy" src={icon} className="menu-icon" alt="" />
+      <div className="menu-label">{label}</div>
+    </Link>
+  );
 }
 
 const menuItems = [
-    { icon: myProfileIcon, label: "Profile", to: "/profile" },
-    { icon: habitIcon, label: "Habits", to: "/dashboard" },
-    { icon: friendsIcon, label: "Friends", to: "/friends" },
-    // { icon: streaksIcon, label: "Streaks", to: "/streaks" },
-    { icon: moodJournalIcon, label: "Mood journal", to: "/journal" },
-    // { icon: progressIcon, label: "Progress", to: "/progress" },
-    { icon: calendarIcon, label: "Calendar", to: "/calendar" },
+  { icon: myProfileIcon, label: "Profile", to: "/profile" },
+  { icon: habitIcon, label: "Habits", to: "/dashboard" },
+  { icon: friendsIcon, label: "Friends", to: "/friends" },
+  // { icon: streaksIcon, label: "Streaks", to: "/streaks" },
+  { icon: moodJournalIcon, label: "Mood journal", to: "/journal" },
+  // { icon: progressIcon, label: "Progress", to: "/progress" },
+  { icon: calendarIcon, label: "Calendar", to: "/calendar" },
 ];
 
 function SideBar() {
-    return (
-        <div className="sidebar">
-            <div className="menu-title">Menu</div>
-            <div className="menu">
-                {menuItems.map((item, index) => (
-                    <MenuItem key={index} icon={item.icon} label={item.label} to={item.to} />
-                ))}
-            </div>
-            <Link to="/logout" className="logout">
-                <img loading="lazy" src={logoutIcon} className="logout-icon" alt="" />
-                <div className="logout-label">Logout</div>
-            </Link>
-        </div>
-    );
+  const logOut = () => {
+    AuthService.logout();
+  };
+
+  return (
+    <div className="sidebar">
+      <div className="menu-title">Menu</div>
+      <div className="menu">
+        {menuItems.map((item, index) => (
+          <MenuItem
+            key={index}
+            icon={item.icon}
+            label={item.label}
+            to={item.to}
+          />
+        ))}
+      </div>
+      <Link to="/login" className="logout" onClick={logOut}>
+        <img loading="lazy" src={logoutIcon} className="logout-icon" alt="" />
+        <div className="logout-label">Logout</div>
+      </Link>
+    </div>
+  );
 }
 
 export default SideBar;
