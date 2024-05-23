@@ -15,7 +15,8 @@ import PrivateRoutes from "./utils/PrivateRoutes";
 const App = () => {
     // Zalogowany uzytkownik nie moze dostac sie do login/register,
     // a nie zalogowany do dashboard itp
-    <Routes>
+  return (
+  <Routes>
       <Route element={<PrivateRoutes />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<Profile />} />
