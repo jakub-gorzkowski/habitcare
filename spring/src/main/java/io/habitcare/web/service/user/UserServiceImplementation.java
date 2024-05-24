@@ -60,6 +60,14 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public void updateImageUrl(Long userId, String imageUrl) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User does not exist"));
+        user.setImageUrl(imageUrl);
+        userRepository.save(user);
+    }
+
+    @Override
     public void deleteById(Long userId) {
         userRepository.deleteById(userId);
     }
@@ -114,5 +122,19 @@ public class UserServiceImplementation implements UserService {
     @Override
     public Long getUserIdByEmail(String email) {
         return userRepository.GetUserIdByEmail(email);
+    }
+
+    @Override
+    public List<UserDto> getAllIvitations(Long userId) {
+        List<Friendship> friendships = friendshipRepository.findAllRequestedFriendships(userId);
+        List<UserDto> invites = new ArrayList<>();
+        if (friendships.isEmpty()) {
+            return invites;
+        }
+        for (Friendship friendship : friendships) {
+            User sender = friendship.getSender();
+            invites.add(UserMapper.mapToUserDto(sender));
+        }
+        return invites;
     }
 }

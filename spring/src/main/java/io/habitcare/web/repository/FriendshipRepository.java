@@ -12,4 +12,7 @@ public interface FriendshipRepository extends JpaRepository<Friendship, Long> {
 
     @Query("SELECT f FROM Friendship f WHERE (f.sender.id = ?2 and f.receiver.id = ?1) AND f.status = 'REQUESTED'")
     Friendship findFriendshipByUsers(Long receiverId, Long senderId);
+
+    @Query("SELECT f FROM Friendship f WHERE f.receiver.id = ?1 AND f.status = 'REQUESTED'")
+    List<Friendship> findAllRequestedFriendships(Long userId);
 }

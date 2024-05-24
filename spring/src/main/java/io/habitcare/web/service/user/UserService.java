@@ -13,6 +13,7 @@ public interface UserService {
     User createUser(User user);
     User updateUser(Long userId, User user);
     void updateUsername(Long userId, String username);
+    void updateImageUrl(Long userId, String imageUrl);
     void deleteById(Long userId);
     List<UserDto> findAllUsers();
     UserDto findUserById(Long userId);
@@ -21,5 +22,6 @@ public interface UserService {
     List<Habit> findUserHabits(Long userId);
     List<UserDto> getAllFriends(Long userId);
     Long getUserIdByEmail(String email);
+    List<UserDto> getAllIvitations(Long userId);
 
 }

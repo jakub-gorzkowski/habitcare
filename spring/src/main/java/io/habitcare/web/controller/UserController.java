@@ -14,7 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.io.IOException;
 
 import static io.habitcare.web.mapper.HabitMapper.mapFromHabitDto;
 import static io.habitcare.web.mapper.UserMapper.mapToUserDto;
@@ -75,6 +81,24 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(path = "/update-image")
+    public ResponseEntity<Void> updateImageUrl(@RequestHeader("Authorization") String token, @RequestParam("file") MultipartFile file) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String fileName = email + "_" + timestamp + "_" + file.getOriginalFilename();
+        Path path = Paths.get("../images/" + fileName);
+        try {
+            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        userService.updateImageUrl(userId, path.toString());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
+
     @DeleteMapping(path = "/delete")
     public ResponseEntity<UserDto> deleteUser(@RequestHeader("Authorization") String token) {
         String email = jwtService.getEmailFromToken(token);
@@ -119,5 +143,13 @@ public class UserController {
 
         User updatedUser = userService.updateUser(userId, user);
         return new ResponseEntity<>(mapToUserDto(updatedUser), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/invitations")
+    public ResponseEntity<List<UserDto>> getInvites(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+        List<UserDto> friends = userService.getAllIvitations(userId);
+        return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 }
