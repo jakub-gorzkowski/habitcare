@@ -16,5 +16,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT h FROM Habit h JOIN h.users u WHERE u.id = :userId")
     List<Habit> findUserHabits(@Param("userId") Long userId);
 
+    @Query("SELECT u.id FROM User u WHERE u.email = :email")
+    Long GetUserIdByEmail(String email);
+
     Optional<User> findByEmail(String email);
 }

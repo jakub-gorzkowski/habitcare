@@ -6,11 +6,13 @@ import io.habitcare.web.mapper.HabitMapper;
 import io.habitcare.web.model.Habit;
 import io.habitcare.web.model.User;
 import io.habitcare.web.service.habit.HabitService;
+import io.habitcare.web.service.jwt.JwtService;
 import io.habitcare.web.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -23,10 +25,13 @@ public class UserController {
     private final UserService userService;
     private final HabitService habitService;
 
+    private final JwtService jwtService;
+
     @Autowired
-    public UserController(UserService userService, HabitService habitService) {
+    public UserController(UserService userService, HabitService habitService, JwtService jwtService) {
         this.userService = userService;
         this.habitService = habitService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping(path = "/add")
@@ -35,20 +40,24 @@ public class UserController {
         return new ResponseEntity<>(mapToUserDto(savedUser), HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/get")
+    @GetMapping(path = "/get-all")
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> users = userService.findAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @GetMapping(path = "/get/{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
+    @GetMapping(path = "/get")
+    public ResponseEntity<UserDto> getUser(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
         UserDto userDto = userService.findUserById(userId);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @PatchMapping(path = "update/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long userId, @RequestBody User user) {
+    @PatchMapping(path = "/update-user")
+    public ResponseEntity<UserDto> updateUser(@RequestHeader("Authorization") String token,@RequestBody User user) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
         if (!userService.exists(userId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -58,14 +67,26 @@ public class UserController {
         return new ResponseEntity<>(mapToUserDto(updatedUser), HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/delete/{userId}")
-    public ResponseEntity<UserDto> deleteUser(@PathVariable Long userId) {
+    @PatchMapping(path = "/update-username")
+    public ResponseEntity<Void> updateUsername(@RequestHeader("Authorization") String token, @RequestParam String username) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+        userService.updateUsername(userId, username);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<UserDto> deleteUser(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
         userService.deleteById(userId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping(path = "{userId}/habits")
-    public ResponseEntity<List<HabitDto>> getHabits(@PathVariable Long userId) {
+    @GetMapping(path = "/habits")
+    public ResponseEntity<List<HabitDto>> getHabits(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
         List<Habit> habits = userService.findUserHabits(userId);
         List<HabitDto> habitsList = habits.stream()
                 .map(HabitMapper::mapToHabitDto)
@@ -73,17 +94,22 @@ public class UserController {
         return new ResponseEntity<>(habitsList, HttpStatus.OK);
     }
 
-    @GetMapping(path = "{userId}/friends")
-    public ResponseEntity<List<UserDto>> getFriends(@PathVariable Long userId) {
+    @GetMapping(path = "/friends")
+    public ResponseEntity<List<UserDto>> getFriends(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
         List<UserDto> friends = userService.getAllFriends(userId);
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 
-    @PatchMapping(path = "{userId}/join/{habitId}")
+    @PatchMapping(path = "/join/{habitId}")
     public ResponseEntity<UserDto> joinHabit(
-            @PathVariable("userId") Long userId,
+            @RequestHeader("Authorization") String token,
             @PathVariable("habitId") Long habitId
     ) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+
         User user = userService.findUserDetailsById(userId);
         HabitDto habitDto = habitService.findHabitById(habitId);
 
