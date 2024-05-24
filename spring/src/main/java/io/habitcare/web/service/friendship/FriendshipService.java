@@ -4,9 +4,9 @@ import io.habitcare.web.dto.FriendshipDto;
 
 public interface FriendshipService {
     boolean exists(Long FriendshipId);
-    boolean existsFriendshipByUsers(Long receiverId, Long senderId);
-    String getFriendshipStatus(Long FriendshipId);
+    boolean existsFriendshipByUsers(Long senderId, Long receiverId);
+    String getFriendshipStatus(Long senderId, Long receiverId);
     FriendshipDto sendInvite(Long senderId, Long receiverId);
-    FriendshipDto acceptInvite(Long FriendshipId);
-    void deleteFriendship(Long FriendshipId);
+    FriendshipDto acceptInvite(Long senderId, Long receiverId);
+    void deleteFriendship(Long senderId, Long receiverId);
 }

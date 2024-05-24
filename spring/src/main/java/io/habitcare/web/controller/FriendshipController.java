@@ -2,9 +2,12 @@ package io.habitcare.web.controller;
 
 import io.habitcare.web.service.friendship.FriendshipService;
 import io.habitcare.web.service.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.habitcare.web.service.jwt.JwtService;
 
 
 
@@ -13,18 +16,25 @@ import org.springframework.web.bind.annotation.*;
 public class FriendshipController {
     private final FriendshipService friendshipService;
     private final UserService userService;
+    private final JwtService jwtService;
 
-    public FriendshipController(FriendshipService friendshipService, UserService userService) {
+    private static final Logger logger = LoggerFactory.getLogger(FriendshipController.class);
+
+    public FriendshipController(FriendshipService friendshipService, UserService userService, JwtService jwtService) {
         this.userService = userService;
         this.friendshipService = friendshipService;
+        this.jwtService = jwtService;
     }
 
-    @PostMapping("/invite")
-    public ResponseEntity sendInvite(@RequestParam Long senderId, @RequestParam Long receiverId) {
+    @PostMapping("/invite/{receiverId}")
+    public ResponseEntity sendInvite(@RequestHeader("Authorization") String token, @PathVariable Long receiverId) {
+        String email = jwtService.getEmailFromToken(token);
+        Long senderId = userService.getUserIdByEmail(email);
+
         if (!userService.exists(senderId) || !userService.exists(receiverId)) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        if (friendshipService.existsFriendshipByUsers(receiverId, senderId)) {
+        if (friendshipService.existsFriendshipByUsers(senderId, receiverId)) {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
         }
 
@@ -32,28 +42,41 @@ public class FriendshipController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PatchMapping("/accept/{id}")
-    public ResponseEntity acceptInvite(@PathVariable Long id) {
-        if (!friendshipService.exists(id)) {
+    @PatchMapping("/accept/{senderId}")
+    public ResponseEntity acceptInvite(@PathVariable Long senderId, @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long receiverId = userService.getUserIdByEmail(email);
+
+        if (!friendshipService.existsFriendshipByUsers(senderId, receiverId)) {
+            logger.error("Friendship does not exist between senderId: {} and receiverId: {}", senderId, receiverId);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        friendshipService.acceptInvite(id);
+        friendshipService.acceptInvite(senderId, receiverId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/decline/{id}")
-    public ResponseEntity declineInvite(@PathVariable Long id) {
-        if (friendshipService.getFriendshipStatus(id).equals("ACCEPTED")) {
+    @DeleteMapping("/decline/{senderId}")
+    public ResponseEntity declineInvite(@PathVariable Long senderId, @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long receiverId = userService.getUserIdByEmail(email);
+
+        if (friendshipService.getFriendshipStatus(senderId, receiverId).equals("ACCEPTED")) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        friendshipService.deleteFriendship(id);
+        friendshipService.deleteFriendship(senderId, receiverId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity deleteFriendship(@PathVariable Long id) {
-        friendshipService.deleteFriendship(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/delete-invitation/{receiverId}")
+    public ResponseEntity deleteFriendship(@RequestHeader("Authorization") String token, @PathVariable Long receiverId) {
+        String email = jwtService.getEmailFromToken(token);
+        Long senderId = userService.getUserIdByEmail(email);
+
+        if (!friendshipService.existsFriendshipByUsers(senderId, receiverId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        friendshipService.deleteFriendship(senderId, receiverId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
