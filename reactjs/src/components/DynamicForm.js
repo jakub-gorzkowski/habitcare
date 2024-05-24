@@ -21,6 +21,7 @@ const DynamicForm = ({ fields, buttonText, action }) => {
 
     if (action.endsWith("/login") && response.data.token) {
       localStorage.setItem("user", JSON.stringify(response.data));
+      navigate("/dashboard");
     } else if (action.endsWith("/register")) {
       navigate("/login");
     }
