@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -26,9 +27,8 @@ public class Habit {
     @Column(name = "description")
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "specification_id")
-    private Specification specification;
+    @Column(name = "start_date")
+    private LocalDateTime startDate;
 
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL)
     private List<Check> checks;

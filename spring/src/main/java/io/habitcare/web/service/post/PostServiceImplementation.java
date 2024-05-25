@@ -7,6 +7,8 @@ import io.habitcare.web.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,12 @@ public class PostServiceImplementation implements PostService {
 
     @Override
     public Post createPost(Post post) {
+        LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
+        LocalDateTime endOfDay = LocalDate.now().plusDays(1).atStartOfDay();
+        boolean exists = postRepository.existsByUserIdAndPostDateBetween(post.getUser().getId(), startOfDay, endOfDay);
+        if (exists) {
+            throw new RuntimeException("User has already created a post today");
+        }
         return postRepository.save(post);
     }
 
@@ -50,5 +58,11 @@ public class PostServiceImplementation implements PostService {
     @Override
     public void deletePost(Long postId) {
         postRepository.deleteById(postId);
+    }
+
+    @Override
+    public Post getUserPostByDate(Long userId, LocalDateTime start, LocalDateTime end) {
+        return postRepository.findByUserIdAndPostDateBetween(userId, start, end)
+                .orElseThrow(() -> new RuntimeException("No post found for the given date"));
     }
 }

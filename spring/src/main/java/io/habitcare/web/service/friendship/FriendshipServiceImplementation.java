@@ -28,15 +28,14 @@ public class FriendshipServiceImplementation implements FriendshipService {
     }
 
     @Override
-    public boolean existsFriendshipByUsers(Long receiverId, Long senderId) {
-        Friendship friendship = friendshipRepository.findFriendshipByUsers(receiverId, senderId);
+    public boolean existsFriendshipByUsers(Long senderId, Long receiverId) {
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(senderId, receiverId);
         return friendship != null;
     }
 
     @Override
-    public String getFriendshipStatus(Long FriendshipId) {
-        Friendship friendship = friendshipRepository.findById(FriendshipId)
-                .orElseThrow(() -> new IllegalArgumentException("No friendship found with id " + FriendshipId));
+    public String getFriendshipStatus(Long senderId, Long receiverId) {
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(senderId, receiverId);
         return friendship.getStatus().toString();
     }
 
@@ -58,9 +57,8 @@ public class FriendshipServiceImplementation implements FriendshipService {
     }
 
     @Override
-    public FriendshipDto acceptInvite(Long FriendshipId) {
-        Friendship friendship = friendshipRepository.findById(FriendshipId)
-                .orElseThrow(() -> new IllegalArgumentException("No friendship found with id " + FriendshipId));
+    public FriendshipDto acceptInvite(Long senderId, Long receiverId) {
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(senderId, receiverId);
 
         friendship.setStatus(FriendshipStatus.ACCEPTED);
         Friendship updatedFriendship = friendshipRepository.save(friendship);
@@ -68,8 +66,8 @@ public class FriendshipServiceImplementation implements FriendshipService {
         return FriendshipMapper.mapToFriendshipDto(updatedFriendship);
     }
     @Override
-    public void deleteFriendship(Long FriendshipId) {
-        friendshipRepository.deleteById(FriendshipId);
-
+    public void deleteFriendship(Long senderId, Long receiverId) {
+        Friendship friendship = friendshipRepository.findFriendshipByUsers(senderId, receiverId);
+        friendshipRepository.delete(friendship);
     }
 }

@@ -28,7 +28,7 @@ public class User implements UserDetails {
     @Column(name = "username")
     private String username;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password")
@@ -59,6 +59,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
     private List<Friendship> receivers;
+
+    public String getRealUsername() {
+        return username;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -91,4 +95,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }
