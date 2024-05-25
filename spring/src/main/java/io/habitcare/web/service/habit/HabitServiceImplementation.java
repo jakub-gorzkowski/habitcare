@@ -169,4 +169,11 @@ public class HabitServiceImplementation implements HabitService {
         long totalDays = ChronoUnit.DAYS.between(startOfMonth, today) + 1;
         return count * 100 / totalDays;
     }
+
+    @Override
+    public Long countDailyChecks(Long userId, LocalDate date) {
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.plusDays(1).atStartOfDay();
+        return checkRepository.countByUserIdAndCheckDateBetween(userId, startOfDay, endOfDay);
+    }
 }

@@ -4,6 +4,7 @@ import io.habitcare.web.dto.CheckDto;
 import io.habitcare.web.dto.HabitDto;
 import io.habitcare.web.model.Habit;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface HabitService {
@@ -25,4 +26,6 @@ public interface HabitService {
     Long countMonthlyChecks(Long habitId, Long userId);
 
     Long countMonthlyChecksPercent(Long habitId, Long userId);
+
+    Long countDailyChecks(Long userId, LocalDate date);
 }

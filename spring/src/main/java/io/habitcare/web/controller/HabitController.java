@@ -5,12 +5,14 @@ import io.habitcare.web.dto.CheckDto;
 import io.habitcare.web.model.Habit;
 import io.habitcare.web.service.habit.HabitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import io.habitcare.web.service.jwt.JwtService;
 import io.habitcare.web.service.user.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static io.habitcare.web.mapper.HabitMapper.mapFromHabitDto;
@@ -137,6 +139,14 @@ public class HabitController {
         Long userId = userService.getUserIdByEmail(email);
 
         Long count = habitService.countMonthlyChecksPercent(habitId, userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/daily-checks/{date}")
+    public ResponseEntity<Long> countDailyChecks(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+        Long count = habitService.countDailyChecks(userId, date);
         return new ResponseEntity<>(count, HttpStatus.OK);
     }
 }
