@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -151,5 +152,21 @@ public class HabitServiceImplementation implements HabitService {
         }
 
         return streak;
+    }
+
+    @Override
+    public Long countMonthlyChecks(Long habitId, Long userId) {
+        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        LocalDateTime endOfMonth = LocalDateTime.now();
+        return checkRepository.countByHabitIdAndUserIdAndCheckDateBetween(habitId, userId, startOfMonth, endOfMonth);
+    }
+
+    @Override
+    public Long countMonthlyChecksPercent(Long habitId, Long userId) {
+        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        LocalDateTime today = LocalDateTime.now();
+        Long count = checkRepository.countByHabitIdAndUserIdAndCheckDateBetween(habitId, userId, startOfMonth, today);
+        long totalDays = ChronoUnit.DAYS.between(startOfMonth, today) + 1;
+        return count * 100 / totalDays;
     }
 }

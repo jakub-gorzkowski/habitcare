@@ -121,4 +121,22 @@ public class HabitController {
         Long streak = habitService.getStreak(habitId, userId);
         return new ResponseEntity<>(streak, HttpStatus.OK);
     }
+
+    @GetMapping(path = "/monthly-checks/{habitId}")
+    public ResponseEntity<Long> countMonthlyChecks(@PathVariable Long habitId, @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+
+        Long count = habitService.countMonthlyChecks(habitId, userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/monthly-percent/{habitId}")
+    public ResponseEntity<Long> countMonthlyChecksPercent(@PathVariable Long habitId, @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        Long userId = userService.getUserIdByEmail(email);
+
+        Long count = habitService.countMonthlyChecksPercent(habitId, userId);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
 }

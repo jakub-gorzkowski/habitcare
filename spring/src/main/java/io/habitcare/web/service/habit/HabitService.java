@@ -21,4 +21,8 @@ public interface HabitService {
     void assignHabitToUser(Long userId, Long habitId);
     Long countChecks(Long habitId, Long userId);
     Long getStreak(Long habitId, Long userId);
+
+    Long countMonthlyChecks(Long habitId, Long userId);
+
+    Long countMonthlyChecksPercent(Long habitId, Long userId);
 }
