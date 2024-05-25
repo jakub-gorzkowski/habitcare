@@ -1,6 +1,5 @@
 package io.habitcare.web.service.user;
 
-import io.habitcare.web.dto.HabitDto;
 import io.habitcare.web.dto.UserDto;
 import io.habitcare.web.model.Habit;
 import io.habitcare.web.model.User;
@@ -22,6 +21,6 @@ public interface UserService {
     List<Habit> findUserHabits(Long userId);
     List<UserDto> getAllFriends(Long userId);
     Long getUserIdByEmail(String email);
-    List<UserDto> getAllIvitations(Long userId);
+    List<UserDto> getAllInvitations(Long userId);
 
 }

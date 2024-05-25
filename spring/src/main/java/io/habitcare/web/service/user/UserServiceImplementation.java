@@ -125,7 +125,7 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllIvitations(Long userId) {
+    public List<UserDto> getAllInvitations(Long userId) {
         List<Friendship> friendships = friendshipRepository.findAllRequestedFriendships(userId);
         List<UserDto> invites = new ArrayList<>();
         if (friendships.isEmpty()) {

@@ -149,7 +149,7 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getInvites(@RequestHeader("Authorization") String token) {
         String email = jwtService.getEmailFromToken(token);
         Long userId = userService.getUserIdByEmail(email);
-        List<UserDto> friends = userService.getAllIvitations(userId);
+        List<UserDto> friends = userService.getAllInvitations(userId);
         return new ResponseEntity<>(friends, HttpStatus.OK);
     }
 }
