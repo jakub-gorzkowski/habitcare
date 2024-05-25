@@ -3,6 +3,7 @@ package io.habitcare.web.service.post;
 import io.habitcare.web.dto.PostDto;
 import io.habitcare.web.model.Post;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PostService {
@@ -11,4 +12,5 @@ public interface PostService {
     List<PostDto> readUserPosts(Long userId);
     Post updatePost(Long postId, Post post);
     void deletePost(Long postId);
+    Post getUserPostByDate(Long userId, LocalDateTime start, LocalDateTime end);
 }
