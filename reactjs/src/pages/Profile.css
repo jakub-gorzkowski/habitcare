@@ -1,4 +1,3 @@
-
 .profile {
     width: 100vw;
     height: 100vh;
@@ -14,6 +13,7 @@
     align-items: center;
     position: fixed;
     right: 0;
+    overflow-y: auto;
 }
 
 .profile-text {
@@ -28,16 +28,50 @@
     margin-top: 10%;
     width: 200px;
     height: 200px;
+    border-radius: 50%;
 }
-.username{
+.username-profile{
     font-size: 1.25rem;
     letter-spacing: -0.025em;
     font-family: 'Poppins', sans-serif;
     text-align: center;
     color: #FDFDFD;
     max-width: 114px;
-    margin-top: 5%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
+.file-input{
+    width: 30%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.file-all{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-between;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 200px;
+}
+.update-text{
+    color: #77CEFF;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+
+}
+.button-update{
+    background: linear-gradient(135deg, #112B88, #77CEFF);
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 10px;
+}
+
 @media (max-width: 900px) {
     .mobile-menu{
         width: 100vw;
@@ -55,6 +89,7 @@
         padding-left: 5%;
         display: flex;
         align-items: center;
+        height: 78vh;
     }
     .profile-picture img{
         width: 150px;
@@ -62,5 +97,18 @@
     }
     .profile-details{
         width: 100%;
+    }
+    .file-all{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        justify-content: space-between;
+        margin-right: 0%;
+        margin-left: 0%;
+        margin-top: 10%;
+    }
+    .update-text{
+        font-size: 15px;
+        font-weight: 600;
     }
 }

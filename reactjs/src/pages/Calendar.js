@@ -2,8 +2,15 @@ import React, { useState, useEffect } from "react";
 import "./Calendar.css";
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import joy from "../assets/JoyColor.svg";
 import MobileMenu from "../components/MobileMenu";
+import axios from 'axios';
+import authHeader from '../service/auth-header.js';
+
+import JoyColor from '../assets/JoyColor.svg';
+import SadnessColor from '../assets/SadnessColor.svg';
+import FearColor from '../assets/FearColor.svg';
+import DisgustColor from '../assets/DisgustColor.svg';
+import AngerColor from '../assets/AngerColor.svg';
 
 const activePage = "Calendar";
 
@@ -14,21 +21,56 @@ const months = [
 
 const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+const moods = [
+    { label: 'Joy', image: JoyColor, color: '#D7C73D', id: 1 },
+    { label: 'Sadness', image: SadnessColor, color: '#2583D0', id: 2 },
+    { label: 'Fear', image: FearColor, color: '#882A9B', id: 3 },
+    { label: 'Disgust', image: DisgustColor, color: '#48974E', id: 4 },
+    { label: 'Anger', image: AngerColor, color: '#CE4139', id: 5 },
+];
+
 const Calendar = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [habitsDone, setHabitsDone] = useState("");
-    const [moodEmoji, setMoodEmoji] = useState("");
+    const [moodId, setMoodId] = useState(null);
     const [moodDescription, setMoodDescription] = useState("");
-
+    const fetchMoodForDate = async (date) => {
+        try {
+            const formattedDate = date.toLocaleDateString('en-CA');
+            const response = await axios.get(`http://localhost:8080/api/posts/get-by-date/${formattedDate}`, {
+                headers: authHeader()
+            });
+            const moodData = response.data;
+            setMoodId(moodData.moodId || null);
+            setMoodDescription(moodData.description || "");
+        } catch (error) {
+            console.error('Error fetching mood for date:', error);
+            setMoodId(null);
+            setMoodDescription("");
+        }
+    };
+    const fetchHabitsDoneForDate = async (date) => {
+        try {
+            const formattedDate = date.toLocaleDateString('en-CA');
+            const response = await axios.get(`http://localhost:8080/api/habits/daily-checks/${formattedDate}`, {
+                headers: authHeader()
+            });
+            const habitsCount = response.data;
+            setHabitsDone(habitsCount);
+        } catch (error) {
+            console.error('Error fetching habits done for date:', error);
+            setHabitsDone("");
+        }
+    };
     const onChange = (date) => {
         setSelectedDate(date);
-        setHabitsDone("6/7");
-        setMoodDescription("Dziś czuję się smutno, ponieważ rano spóźniłem się do pracy, potem miałem kłótnię z przyjacielem, a na koniec złamałem ulubioną filiżankę do kawy.");
+        fetchHabitsDoneForDate(date);
+        fetchMoodForDate(date);
     };
 
     useEffect(() => {
-        onChange(selectedDate); // Wywołanie funkcji onChange przy montowaniu komponentu
-    }, []); // Pusta tablica zależności sprawi, że useEffect zostanie wywołany tylko raz, po zamontowaniu komponentu
+        onChange(selectedDate);
+    }, [selectedDate]);
 
     const onPrevMonthClick = () => {
         setSelectedDate((prevDate) => {
@@ -67,7 +109,10 @@ const Calendar = () => {
 
         return days;
     };
-
+    const getMoodImage = () => {
+        const mood = moods.find(m => m.id === moodId);
+        return mood ? mood.image : null;
+    };
     return (
         <div className="calendar">
             <Navbar/>
@@ -96,7 +141,7 @@ const Calendar = () => {
                             <h3>{selectedDate.toDateString()}</h3>
                             <div className="mood-habits-container">
                                 <div className="mood-emoji">
-                                    <img src={joy} className="emotion-img" alt="Joy Emoji"/>
+                                    {moodId && <img src={getMoodImage()} className="emotion-img" alt="Mood Emoji"/>}
                                 </div>
                                 <div className="habits-done">
                                     <span>Habits done:</span> {habitsDone}
