@@ -1,11 +1,11 @@
 import React from 'react';
 import './Button.css';
 
-const Button= ({ color, children }) => {
+const Button = ({ color, children, onClick }) => {
     const buttonClassName = `button ${color}`;
 
     return (
-        <button className={buttonClassName}>
+        <button className={buttonClassName} onClick={onClick}>
             {children}
         </button>
     );
