@@ -9,11 +9,14 @@ import io.habitcare.web.service.habit.HabitService;
 import io.habitcare.web.service.jwt.JwtService;
 import io.habitcare.web.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestHeader;
 
+import java.net.MalformedURLException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -87,7 +90,7 @@ public class UserController {
         Long userId = userService.getUserIdByEmail(email);
         String timestamp = String.valueOf(System.currentTimeMillis());
         String fileName = email + "_" + timestamp + "_" + file.getOriginalFilename();
-        Path path = Paths.get("../images/" + fileName);
+        Path path = Paths.get("src/main/java/io/habitcare/images/" + fileName);
         try {
             Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
@@ -151,5 +154,20 @@ public class UserController {
         Long userId = userService.getUserIdByEmail(email);
         List<UserDto> friends = userService.getAllInvitations(userId);
         return new ResponseEntity<>(friends, HttpStatus.OK);
+    }
+
+    @GetMapping("/images")
+    public ResponseEntity<Resource> getImage(@RequestParam String path) {
+        try {
+            Path file = Paths.get(path);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok().body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (MalformedURLException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
