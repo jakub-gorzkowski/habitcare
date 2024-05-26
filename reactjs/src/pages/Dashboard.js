@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import SideBar from "../components/SideBar.js";
 import Navbar from "../components/Navbar";
@@ -12,13 +12,16 @@ function Dashboard() {
     const activePage = "Habits";
     const [habits, setHabits] = useState([]);
     const [newHabitName, setNewHabitName] = useState('');
+    const [scores, setScores] = useState({});
 
     useEffect(() => {
-        axios.get("http://localhost:8080/api/users/habits", {
+        axios.get("/api/users/habits", {
             headers: authHeader()
         })
             .then(response => {
                 setHabits(response.data);
+                const habitIds = response.data.map(habit => habit.id);
+                fetchMonthlyScores(habitIds);
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -26,20 +29,46 @@ function Dashboard() {
     }, []);
 
     const handleAddHabit = () => {
-        axios.post("http://localhost:8080/api/habits/add", {
+        if (!newHabitName.trim()) {
+            alert("Habit name cannot be empty.");
+            return;
+        }
+
+        axios.post("/api/habits/add", {
             name: newHabitName,
             description: ""
         }, {
             headers: authHeader()
         })
             .then(response => {
-                setHabits([...habits, {name: newHabitName, score: 0}]);
+                setHabits([...habits, { name: newHabitName, id: response.data.id }]);
                 setNewHabitName('');
+                setScores(prevScores => ({
+                    ...prevScores,
+                    [response.data.id]: 0
+                }));
             })
             .catch(error => {
                 console.error('There was an error!', error);
             });
-    }
+    };
+
+    const fetchMonthlyScores = (habitIds) => {
+        habitIds.forEach(habitId => {
+            axios.get(`/api/habits/monthly-checks/${habitId}`, {
+                headers: authHeader()
+            })
+                .then(response => {
+                    setScores(prevScores => ({
+                        ...prevScores,
+                        [habitId]: response.data
+                    }));
+                })
+                .catch(error => {
+                    console.error(`Error fetching monthly score for habit ${habitId}:`, error);
+                });
+        });
+    };
 
     return (
         <div className="dashboard">
@@ -50,12 +79,16 @@ function Dashboard() {
                 </div>
                 <div className="habits-container">
                     <div className="habits-text">My habits</div>
-                    {habits.map((habit, index) => (
+                    {habits.map(habit => (
                         <HabitItem
-                            key={index}
+                            key={habit.id}
                             label={habit.name}
                             inviteText="Invite friend"
-                        />))}
+                            habitId={habit.id}
+                            score={scores[habit.id] || 0}
+                            setScores={setScores}
+                        />
+                    ))}
 
                     <div className="add-habit-input">
                         <input type="text" placeholder="Insert habit name" value={newHabitName} onChange={e => setNewHabitName(e.target.value)} />
