@@ -36,9 +36,7 @@ function HabitItem({ label, inviteText, habitId, score, setScores }) {
 
     return (
         <div className="habit-item">
-            <Link to={`/habitdetails/${habitId}`} className="label-link">
-                <h3 className="label">{label}</h3>
-            </Link>
+            <h3 className="label">{label}</h3>
             <div className="check">
                 <input
                     type="checkbox"
@@ -50,7 +48,9 @@ function HabitItem({ label, inviteText, habitId, score, setScores }) {
             <div className="score">
                 Score: <span className="score-value">{scoreText}</span>
             </div>
-            <div className="invite-text">{inviteText}</div>
+            <Link to={`/habitdetails/${habitId}`} className="label-link">
+                <div className="invite-text">{inviteText}</div>
+            </Link>
         </div>
     );
 }

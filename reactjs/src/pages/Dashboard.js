@@ -83,7 +83,7 @@ function Dashboard() {
                         <HabitItem
                             key={habit.id}
                             label={habit.name}
-                            inviteText="Invite friend"
+                            inviteText="Show Details"
                             habitId={habit.id}
                             score={scores[habit.id] || 0}
                             setScores={setScores}
