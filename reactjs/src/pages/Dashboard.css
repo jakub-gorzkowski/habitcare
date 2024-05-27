@@ -62,7 +62,7 @@
         width: 100%;
         padding-top: 5%;
         display: flex;
-        align-items: start;
+        align-items: center;
         overflow-y: auto;
         margin-bottom: 7%;
     }
